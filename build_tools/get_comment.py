@@ -20,7 +20,7 @@ def get_versions(versions_file):
     versions : dict
         A dictionary with the versions of the packages.
     """
-    with open("versions.txt", "r") as f:
+    with open(versions_file, "r") as f:
         return dict(line.strip().split("=") for line in f)
 
 
