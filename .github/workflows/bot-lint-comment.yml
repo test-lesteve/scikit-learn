@@ -15,8 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion != 'cancelled' }}
     env:
-      ARTIFACTS_DIR: ${{ runner.temp }}/artifacts
     steps:
+      - name: Define ARTIFACTS_DIR environment variable
+        run: |
+          echo "ARTIFACTS_DIR=${{ runner.temp }}/artifacts" >> "$GITHUB_ENV"
+
       - name: Create temporary artifacts directory
         run: mkdir -p "$ARTIFACTS_DIR"
 
