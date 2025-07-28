@@ -306,7 +306,6 @@ if __name__ == "__main__":
             "GITHUB_REPOSITORY, GITHUB_TOKEN, PR_NUMBER, LOG_FILE, RUN_ID"
         )
 
-    print('pr_number', pr_number)
     if not re.match(r"\d+$", pr_number):
         raise ValueError(f"PR_NUMBER should be a number, got {pr_number!r} instead")
 
