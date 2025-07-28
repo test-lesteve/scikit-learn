@@ -3,6 +3,7 @@
 # This script fails if there are not comments to be posted.
 
 import os
+import re
 
 import requests
 
@@ -304,6 +305,10 @@ if __name__ == "__main__":
             "One of the following environment variables is not set: "
             "GITHUB_REPOSITORY, GITHUB_TOKEN, PR_NUMBER, LOG_FILE, RUN_ID"
         )
+
+    print('pr_number', pr_number)
+    if not re.match(r"\d+$", pr_number):
+        raise ValueError(f"PR_NUMBER should be a number, got {pr_number!r} instead")
 
     try:
         comment = find_lint_bot_comments(repo, token, pr_number)
