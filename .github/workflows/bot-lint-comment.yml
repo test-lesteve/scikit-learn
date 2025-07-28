@@ -30,6 +30,23 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
 
+      # Adapted from https://github.com/docker-mailserver/docker-mailserver/pull/4267#issuecomment-2484565209
+      - name: Get PR number for triggering workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_TARGET_REPO: ${{ github.repository }}
+          PR_BRANCH: |-
+            ${{
+              (github.event.workflow_run.head_repository.owner.login != github.event.workflow_run.repository.owner.login)
+                && format('{0}:{1}', github.event.workflow_run.head_repository.owner.login, github.event.workflow_run.head_branch)
+                || github.event.workflow_run.head_branch
+            }}
+        run: |
+          gh pr view --repo "${PR_TARGET_REPO}" "${PR_BRANCH}" \
+            --json 'number' \
+            --jq '"PR_NUMBER=\(.number)"' \
+            >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
         with:
           sparse-checkout: build_tools/get_comment.py
@@ -49,7 +66,6 @@ jobs:
           RUN_ID: ${{ github.event.workflow_run.id }}
         run: |
           set -e
-          export PR_NUMBER=$(cat $ARTIFACTS_DIR/pr_number.txt)
           export LOG_FILE="$ARTIFACTS_DIR/linting_output.txt"
           export VERSIONS_FILE="$ARTIFACTS_DIR/versions.txt"
 
