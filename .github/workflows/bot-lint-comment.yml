@@ -14,7 +14,6 @@ jobs:
   bot-comment:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion != 'cancelled' }}
-    env:
     steps:
       - name: Define ARTIFACTS_DIR environment variable
         run: |
