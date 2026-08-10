@@ -1,5 +1,7 @@
 .. -*- mode: rst -*-
 
+Added some text in the README
+
 |GitHubActions| |Codecov| |CircleCI| |Nightly wheels| |Ruff| |PythonVersion| |PyPI| |DOI| |Benchmark|
 
 
